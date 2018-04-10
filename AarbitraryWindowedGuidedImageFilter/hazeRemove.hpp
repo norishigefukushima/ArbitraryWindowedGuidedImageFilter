@@ -17,7 +17,6 @@ void minFilter(InputArray src, OutputArray dest, int radius)
 	minFilter(src, dest, Size(2 * radius + 1, 2 * radius + 1));
 }
 
-
 class HazeRemove
 {
 	int filter_switch;

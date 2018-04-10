@@ -31,6 +31,7 @@ void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = t
 	const int width = src.cols;
 	const int height = src.rows;
 	namedWindow(wname);
+	namedWindow(wname+"detail");
 	ConsoleImage ci;
 
 	//for synthetic signal
@@ -53,7 +54,7 @@ void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = t
 	int iteration = 1; createTrackbar("iteration", wname, &iteration, 10);
 
 	int noise = 0; createTrackbar("noise sigma", wname, &noise, 100);
-	int amp = 20; createTrackbar("amp detail enhance", wname, &amp, 100);
+	int amp = 20; createTrackbar("amp detail enhance", wname+"detail", &amp, 100);
 
 	int a = 0; createTrackbar("alpha", wname, &a, 100);
 	
@@ -105,7 +106,7 @@ void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = t
 		ci(format("time %f [ms]", stat.getMedian()));
 		
 		showf.convertTo(show, CV_8U);
-		ci(format("PSNR all  %f", calcPSNR(ideal, show)));
+		ci(format("PSNR %f", calcPSNR(ideal, show)));
 		ci.flush();
 
 		alphaBlend(show, guidesig, 1.0 - a / 100.0, show);
@@ -114,7 +115,7 @@ void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = t
 		ss.push_back(ideal);
 
 		Mat detail = srcsig + amp*0.1*(srcsig - show);
-		imshow("detail", detail);
+		imshow(wname+"detail", detail);
 		ss.push_back(detail);
 
 		//Mat diff = amp*0.1*(show- ideal)+128.0;
@@ -252,7 +253,6 @@ public:
 
 	void filter(Mat& src, Mat& guide, Mat& dest)
 	{
-		//CalcTime t;
 		src.copyTo(dest);
 		ArbitraryWindowedGuidedImageFilter gf;
 		gf.setMode(sw);
@@ -260,6 +260,7 @@ public:
 
 		float e = (eps/10.0) * (eps/10.0);
 		Mat joint = guide.clone();
+		//CalcTime t; // for computational time 
 		for (int i = 0; i < iter; i++)
 		{
 			gf.filter(dest, joint, dest, r, e);
@@ -270,10 +271,11 @@ public:
 int main(int argc, char** argv)
 {
 	//for denoising, detail enhancement
-	Mat src_ = imread("nagoya.png", 0);
+	//Mat src_ = imread("nagoya.png", 0);
+	Mat src_ = imread("kodim23.png", 0);	
 	Mat src;
-	const int width = 512*4;
-	const int height = 512*4;
+	const int width = 512;
+	const int height = 512;
 	resize(src_, src, Size(width, height));
 	ArbitraryWindowedGuidedImageFilterTest(src, false);
 
