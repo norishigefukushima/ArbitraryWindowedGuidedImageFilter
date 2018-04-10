@@ -2,17 +2,14 @@
 
 Published in ICASSP 2018
 
-[Project Webpage: http://fukushima.web.nitech.ac.jp/research/awgif/](http://fukushima.web.nitech.ac.jp/research/awgif/)
-
-[pdf](http://fukushima.web.nitech.ac.jp/paper/2018_icassp_fukushima.pdf)
+* [Project Webpage: http://fukushima.web.nitech.ac.jp/research/awgif/](http://fukushima.web.nitech.ac.jp/research/awgif/)
+* [pdf](http://fukushima.web.nitech.ac.jp/paper/2018_icassp_fukushima.pdf)
 
 ## class and function lists
 The main function includes three tests.
 
 * denoising and detail enhancement
-	* ```c++
-	class ArbitraryWindowedGuidedImageFilter
-	```
+	* ```class ArbitraryWindowedGuidedImageFilter```
 	* implementation of the proposed method
 * filtering kernel visualization
 	* ```class VisualizeKernel, VizKernelAWGIF```
@@ -27,7 +24,9 @@ There are several implementations of smoothing filtering:
 	* ```void GaussianBlurSR(InputArray src, OutputArray dest, const double sigma)```
 * dual exponential smoothing
 	* ```void LaplacianSmoothingIIRFilter(Mat& src, Mat& dest, const double sigma_, int opt=VECTOR_AVX)```
+		* function implementation
 	* ```class LaplacianSmoothingIIR```
+		* class implementation for optimization of utilization of image buffers 
 * joint bilateral filter
 	* ```void jointBilateralFilter(cv::InputArray src, cv::InputArray guide, cv::OutputArray dest, int D, double sigma_color, double sigma_space, int kernelType, int borderType)```
 * box filter
