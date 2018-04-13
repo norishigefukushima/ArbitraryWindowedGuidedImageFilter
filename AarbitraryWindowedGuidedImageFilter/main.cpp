@@ -25,6 +25,11 @@ CVAUX_STR(CV_SUBMINOR_VERSION)
 #pragma CV_LIBRARY(highgui)
 #pragma CV_LIBRARY(imgproc)
 
+void update(int pos, void* flag)
+{
+	bool* f = (bool*)flag;
+	*f = true;
+}
 
 void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = true, String wname = "AWGIF")
 {
@@ -33,30 +38,30 @@ void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = t
 	namedWindow(wname);
 	namedWindow(wname+"detail");
 	ConsoleImage ci;
-
+	bool flag = false;
 	//for synthetic signal
-	int xbox1 = width / 2;  createTrackbar("xbox1", "", &xbox1, width);
-	int ybox1 = height / 2; createTrackbar("ybox1", "", &ybox1, height);
-	int rbox1 = 100; createTrackbar("rbox1", "", &rbox1, 200);
-	int obox1 = 20; createTrackbar("offset box1", "", &obox1, 128);
-	int bbox1 = 0; createTrackbar("blur box1", "", &bbox1, 100);
-	int xbox2 = width / 2;  createTrackbar("xbox2", "", &xbox2, width);
-	int ybox2 = height / 2; createTrackbar("ybox2", "", &ybox2, height);
-	int rbox2 = 100; createTrackbar("rbox2", "", &rbox2, 200);
-	int oboxt2 = 50; createTrackbar("offset box top", "", &oboxt2, 128);
-	int obox2 = 50; createTrackbar("offset box2", "", &obox2, 128);
-	int bbox2 = 5; createTrackbar("blur box2", "", &bbox2, 100);
+	int xbox1 = width / 2;  createTrackbar("xbox1", "", &xbox1, width, update, &flag);
+	int ybox1 = height / 2; createTrackbar("ybox1", "", &ybox1, height, update, &flag);
+	int rbox1 = 100; createTrackbar("rbox1", "", &rbox1, 200, update, &flag);
+	int obox1 = 20; createTrackbar("offset box1", "", &obox1, 128, update, &flag);
+	int bbox1 = 0; createTrackbar("blur box1", "", &bbox1, 100, update, &flag);
+	int xbox2 = width / 2;  createTrackbar("xbox2", "", &xbox2, width, update, &flag);
+	int ybox2 = height / 2; createTrackbar("ybox2", "", &ybox2, height, update, &flag);
+	int rbox2 = 100; createTrackbar("rbox2", "", &rbox2, 200, update, &flag);
+	int oboxt2 = 50; createTrackbar("offset box top", "", &oboxt2, 128, update, &flag);
+	int obox2 = 50; createTrackbar("offset box2", "", &obox2, 128, update, &flag);
+	int bbox2 = 5; createTrackbar("blur box2", "", &bbox2, 100, update, &flag);
 
-	int sw = 1; createTrackbar("swich", wname, &sw, 3);
-	int r = 2; createTrackbar("r", wname, &r, 100);
-	int eps = 10; createTrackbar("eps*10", wname, &eps, 1000);
-	int sigma_r = 25; createTrackbar("sigma_range", wname, &sigma_r, 500);
-	int iteration = 1; createTrackbar("iteration", wname, &iteration, 10);
+	int sw = 1; createTrackbar("swich", wname, &sw, 3, update, &flag);
+	int r = 2; createTrackbar("r", wname, &r, 100, update, &flag);
+	int eps = 10; createTrackbar("eps*10", wname, &eps, 1000, update, &flag);
+	int sigma_r = 25; createTrackbar("sigma_range", wname, &sigma_r, 500, update, &flag);
+	int iteration = 1; createTrackbar("iteration", wname, &iteration, 10, update, &flag);
 
-	int noise = 0; createTrackbar("noise sigma", wname, &noise, 100);
-	int amp = 20; createTrackbar("amp detail enhance", wname+"detail", &amp, 100);
+	int noise = 0; createTrackbar("noise sigma", wname, &noise, 100, update, &flag);
+	int amp = 20; createTrackbar("amp detail enhance", wname+"detail", &amp, 100, update, &flag);
 
-	int a = 0; createTrackbar("alpha", wname, &a, 100);
+	int a = 0; createTrackbar("alpha", wname, &a, 100, update, &flag);
 	
 	int key = 0;
 	Mat guidesig = src.clone();
@@ -127,6 +132,11 @@ void ArbitraryWindowedGuidedImageFilterTest(Mat& src, bool isShowProfilePlot = t
 		
 
 		key = waitKey(1);
+		if (flag)
+		{
+			stat.clear();
+			flag = false;
+		}
 		if (key == 'r') stat.clear();
 		if (key == 'n') isUpdate = (isUpdate) ? false : true;
 	}
@@ -270,16 +280,16 @@ public:
 
 int main(int argc, char** argv)
 {
-	//for denoising, detail enhancement
+	//for denoising and detail enhancement
 	//Mat src_ = imread("nagoya.png", 0);
 	Mat src_ = imread("kodim23.png", 0);	
 	Mat src;
-	const int width = 512;
-	const int height = 512;
+	const int width = 512*2;
+	const int height = 512*2;
 	resize(src_, src, Size(width, height));
 	ArbitraryWindowedGuidedImageFilterTest(src, false);
 
-	//for kernel visuarization
+	//for kernel visualization
 	Mat lenna = imread("lenna.png", 0);
 	VizKernelAWGIF viz;
 	viz.run(lenna);
