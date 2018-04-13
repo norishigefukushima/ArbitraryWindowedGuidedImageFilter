@@ -36,4 +36,12 @@ These filters are switched in the class of the following method:
 
 ```void internal_filter(Mat& src, Mat& dest, int r, Mat& guide=Mat())```
 
+##Usage
+press 'q' key to switch experiments.
+
+![detail enhancement](./fig/fig1.png "detail enhancement")
+
+![kernel visualization](./fig/fig2.png "kernel visualization")
+
+![haze remove](./fig/fig3.png "haze remove")
 
