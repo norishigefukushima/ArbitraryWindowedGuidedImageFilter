@@ -36,7 +36,7 @@ These filters are switched in the class of the following method:
 
 ```void internal_filter(Mat& src, Mat& dest, int r, Mat& guide=Mat())```
 
-##Usage
+## Usage
 
 press 'q' key to switch experiments.
 
