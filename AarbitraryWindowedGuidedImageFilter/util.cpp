@@ -19,8 +19,8 @@ void triangle(InputOutputArray src_, Point pt, int length, Scalar& color, int th
 	pt1[0][2] = Point(pt.x - length / 2, pt.y + h / 2);
 
 	const cv::Point *ppt[1] = { pt1[0] };
-
-	if (thickness == CV_FILLED)
+	
+	if (thickness == cv::FILLED)
 	{
 		fillPoly(src, ppt, npt, 1, color, 1);
 	}
@@ -43,7 +43,7 @@ void triangleinv(InputOutputArray src_, Point pt, int length, Scalar& color, int
 
 	const cv::Point *ppt[1] = { pt1[0] };
 
-	if (thickness == CV_FILLED)
+	if (thickness == cv::FILLED)
 	{
 		fillPoly(src, ppt, npt, 1, color, 1);
 	}
@@ -64,8 +64,8 @@ void drawPlus(InputOutputArray src, Point crossCenter, int length, Scalar& color
 	}
 
 	int hl = length / 2;
-	line(dest, cvPoint(crossCenter.x - hl, crossCenter.y), cvPoint(crossCenter.x + hl, crossCenter.y), color, thickness, line_type, shift);
-	line(dest, cvPoint(crossCenter.x, crossCenter.y - hl), cvPoint(crossCenter.x, crossCenter.y + hl), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x - hl, crossCenter.y), cv::Point(crossCenter.x + hl, crossCenter.y), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x, crossCenter.y - hl), cv::Point(crossCenter.x, crossCenter.y + hl), color, thickness, line_type, shift);
 
 	dest.copyTo(src);
 }
@@ -79,8 +79,8 @@ void drawTimes(InputOutputArray src, Point crossCenter, int length, Scalar& colo
 		crossCenter.y = dest.rows / 2;
 	}
 	int hl = cvRound((double)length / 2.0 / sqrt(2.0));
-	line(dest, cvPoint(crossCenter.x - hl, crossCenter.y - hl), cvPoint(crossCenter.x + hl, crossCenter.y + hl), color, thickness, line_type, shift);
-	line(dest, cvPoint(crossCenter.x + hl, crossCenter.y - hl), cvPoint(crossCenter.x - hl, crossCenter.y + hl), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x - hl, crossCenter.y - hl), cv::Point(crossCenter.x + hl, crossCenter.y + hl), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x + hl, crossCenter.y - hl), cv::Point(crossCenter.x - hl, crossCenter.y + hl), color, thickness, line_type, shift);
 
 	dest.copyTo(src);
 }
@@ -95,12 +95,12 @@ void drawAsterisk(InputOutputArray src, Point crossCenter, int length, Scalar& c
 	}
 
 	int hl = cvRound((double)length / 2.0 / sqrt(2.0));
-	line(dest, cvPoint(crossCenter.x - hl, crossCenter.y - hl), cvPoint(crossCenter.x + hl, crossCenter.y + hl), color, thickness, line_type, shift);
-	line(dest, cvPoint(crossCenter.x + hl, crossCenter.y - hl), cvPoint(crossCenter.x - hl, crossCenter.y + hl), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x - hl, crossCenter.y - hl), cv::Point(crossCenter.x + hl, crossCenter.y + hl), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x + hl, crossCenter.y - hl), cv::Point(crossCenter.x - hl, crossCenter.y + hl), color, thickness, line_type, shift);
 
 	hl = length / 2;
-	line(dest, cvPoint(crossCenter.x - hl, crossCenter.y), cvPoint(crossCenter.x + hl, crossCenter.y), color, thickness, line_type, shift);
-	line(dest, cvPoint(crossCenter.x, crossCenter.y - hl), cvPoint(crossCenter.x, crossCenter.y + hl), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x - hl, crossCenter.y), cv::Point(crossCenter.x + hl, crossCenter.y), color, thickness, line_type, shift);
+	line(dest, cv::Point(crossCenter.x, crossCenter.y - hl), cv::Point(crossCenter.x, crossCenter.y + hl), color, thickness, line_type, shift);
 
 	dest.copyTo(src);
 }
@@ -336,12 +336,12 @@ void alphaBlend(InputArray src1, InputArray src2, const double alpha, OutputArra
 		}
 		else if (src2.channels() == 3)
 		{
-			cvtColor(src1, s1, CV_GRAY2BGR);
+			cvtColor(src1, s1, COLOR_GRAY2BGR);
 			s2 = src2.getMat();
 		}
 		else
 		{
-			cvtColor(src2, s2, CV_GRAY2BGR);
+			cvtColor(src2, s2, COLOR_GRAY2BGR);
 			s1 = src1.getMat();
 		}
 	}
@@ -356,12 +356,12 @@ void alphaBlend(InputArray src1, InputArray src2, const double alpha, OutputArra
 		}
 		else if (src2.channels() == 3)
 		{
-			cvtColor(src1, s1, CV_GRAY2BGR);
+			cvtColor(src1, s1, COLOR_GRAY2BGR);
 			s2 = src2.getMat();
 		}
 		else
 		{
-			cvtColor(src2, s2, CV_GRAY2BGR);
+			cvtColor(src2, s2, COLOR_GRAY2BGR);
 			s1 = src1.getMat();
 		}
 		s1.convertTo(s1, depth);
@@ -556,7 +556,7 @@ void ConsoleImage::operator()(string src)
 	if (isLineNumber)strings.push_back(format("%2d ", count) + src);
 	else strings.push_back(src);
 
-	cv::putText(show, src, Point(20, 20 + count * 20), CV_FONT_HERSHEY_COMPLEX_SMALL, 1.0, CV_RGB(255, 255, 255), 1);
+	cv::putText(show, src, Point(20, 20 + count * 20), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, CV_RGB(255, 255, 255), 1);
 	count++;
 }
 void ConsoleImage::operator()(const char *format, ...)
@@ -573,7 +573,7 @@ void ConsoleImage::operator()(const char *format, ...)
 	if (isLineNumber)strings.push_back(cv::format("%2d ", count) + a);
 	else strings.push_back(a);
 
-	cv::putText(show, buff, Point(20, 20 + count * 20), CV_FONT_HERSHEY_COMPLEX_SMALL, 1.0, CV_RGB(255, 255, 255), 1);
+	cv::putText(show, buff, Point(20, 20 + count * 20), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, CV_RGB(255, 255, 255), 1);
 	count++;
 }
 
@@ -589,7 +589,7 @@ void ConsoleImage::operator()(cv::Scalar color, const char *format, ...)
 	string a = buff;
 	if (isLineNumber)strings.push_back(cv::format("%2d ", count) + a);
 	else strings.push_back(a);
-	cv::putText(show, buff, Point(20, 20 + count * 20), CV_FONT_HERSHEY_COMPLEX_SMALL, 1.0, CV_RGB(255, 255, 255), 1);
+	cv::putText(show, buff, Point(20, 20 + count * 20), cv::FONT_HERSHEY_COMPLEX_SMALL, 1.0, CV_RGB(255, 255, 255), 1);
 	count++;
 }
 
@@ -787,8 +787,8 @@ void plotGraph(OutputArray graph_, vector<Point2d>& data, double xmin, double xm
 			{
 				double nsrc = data[i + 1].x;
 				double ndest = data[i + 1].x;
-				line(graph, p, cvPoint(cvRound(x*(nsrc - xmin)), p.y), color, thickness);
-				line(graph, cvPoint(cvRound(x*(nsrc - xmin)), p.y), cvPoint(cvRound(x*(nsrc - xmin)), H - cvRound(y*(ndest - ymin))), color, thickness);
+				line(graph, p, cv::Point(cvRound(x*(nsrc - xmin)), p.y), color, thickness);
+				line(graph, cv::Point(cvRound(x*(nsrc - xmin)), p.y), cv::Point(cvRound(x*(nsrc - xmin)), H - cvRound(y*(ndest - ymin))), color, thickness);
 			}
 		}
 		else if (isLine == Plot::LINE_V2H)
@@ -797,8 +797,8 @@ void plotGraph(OutputArray graph_, vector<Point2d>& data, double xmin, double xm
 			{
 				double nsrc = data[i + 1].x;
 				double ndest = data[i + 1].x;
-				line(graph, p, cvPoint(p.x, H - cvRound(y*(ndest - ymin))), color, thickness);
-				line(graph, cvPoint(p.x, H - cvRound(y*(ndest - ymin))), cvPoint(cvRound(x*(nsrc - xmin)), H - cvRound(y*(ndest - ymin))), color, thickness);
+				line(graph, p, cv::Point(p.x, H - cvRound(y*(ndest - ymin))), color, thickness);
+				line(graph, cv::Point(p.x, H - cvRound(y*(ndest - ymin))), cv::Point(cvRound(x*(nsrc - xmin)), H - cvRound(y*(ndest - ymin))), color, thickness);
 			}
 		}
 
@@ -824,17 +824,17 @@ void plotGraph(OutputArray graph_, vector<Point2d>& data, double xmin, double xm
 		}
 		else if (lt == Plot::SYMBOL_RECTANGLE)
 		{
-			rectangle(graph, cvPoint(p.x - ps, p.y - ps), cvPoint(p.x + ps, p.y + ps),
+			rectangle(graph, cv::Point(p.x - ps, p.y - ps), cv::Point(p.x + ps, p.y + ps),
 				color, thickness);
 		}
 		else if (lt == Plot::SYMBOL_CIRCLE_FILL)
 		{
-			circle(graph, p, ps, color, CV_FILLED);
+			circle(graph, p, ps, color, cv::FILLED);
 		}
 		else if (lt == Plot::SYMBOL_RECTANGLE_FILL)
 		{
-			rectangle(graph, cvPoint(p.x - ps, p.y - ps), cvPoint(p.x + ps, p.y + ps),
-				color, CV_FILLED);
+			rectangle(graph, cv::Point(p.x - ps, p.y - ps), cv::Point(p.x + ps, p.y + ps),
+				color, cv::FILLED);
 		}
 		else if (lt == Plot::SYMBOL_TRIANGLE)
 		{
@@ -842,7 +842,7 @@ void plotGraph(OutputArray graph_, vector<Point2d>& data, double xmin, double xm
 		}
 		else if (lt == Plot::SYMBOL_TRIANGLE_FILL)
 		{
-			triangle(graph, p, 2 * ps, color, CV_FILLED);
+			triangle(graph, p, 2 * ps, color, cv::FILLED);
 		}
 		else if (lt == Plot::SYMBOL_TRIANGLE_INV)
 		{
@@ -850,7 +850,7 @@ void plotGraph(OutputArray graph_, vector<Point2d>& data, double xmin, double xm
 		}
 		else if (lt == Plot::SYMBOL_TRIANGLE_INV_FILL)
 		{
-			triangleinv(graph, p, 2 * ps, color, CV_FILLED);
+			triangleinv(graph, p, 2 * ps, color, cv::FILLED);
 		}
 	}
 }
@@ -1413,7 +1413,7 @@ static void guiPreviewMouse(int event, int x, int y, int flags, void* param)
 {
 	Point* ret = (Point*)param;
 
-	if (flags == CV_EVENT_FLAG_LBUTTON)
+	if (flags == cv::EVENT_FLAG_LBUTTON)
 	{
 		ret->x = x;
 		ret->y = y;
@@ -1633,7 +1633,7 @@ void imshowAnalysis(String winname, Mat& src)
 {
 	static bool isFirst = true;
 	Mat im;
-	if (src.channels() == 1)cvtColor(src, im, CV_GRAY2BGR);
+	if (src.channels() == 1)cvtColor(src, im, COLOR_GRAY2BGR);
 	else src.copyTo(im);
 
 	namedWindow(winname);
@@ -1692,7 +1692,7 @@ void imshowAnalysis(String winname, vector<Mat>& s)
 	vector<Mat> im(s.size());
 	for (int i = 0; i < (int)s.size(); i++)
 	{
-		if (src.channels() == 1)cvtColor(s[i], im[i], CV_GRAY2BGR);
+		if (src.channels() == 1)cvtColor(s[i], im[i], COLOR_GRAY2BGR);
 		else s[i].copyTo(im[i]);
 	}
 

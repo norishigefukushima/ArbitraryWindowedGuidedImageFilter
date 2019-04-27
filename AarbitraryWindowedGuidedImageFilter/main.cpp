@@ -151,7 +151,7 @@ public:
 	{
 		Point* ret = (Point*)param;
 
-		if (flags == CV_EVENT_FLAG_LBUTTON)
+		if (flags == cv::EVENT_FLAG_LBUTTON)
 		{
 			ret->x = x;
 			ret->y = y;
@@ -266,9 +266,9 @@ public:
 		src.copyTo(dest);
 		ArbitraryWindowedGuidedImageFilter gf;
 		gf.setMode(sw);
-		gf.setSigmaRange(sigmaR);
+		gf.setSigmaRange((float)sigmaR);
 
-		float e = (eps/10.0) * (eps/10.0);
+		float e = (float)((eps/10.0) * (eps/10.0));
 		Mat joint = guide.clone();
 		//CalcTime t; // for computational time 
 		for (int i = 0; i < iter; i++)

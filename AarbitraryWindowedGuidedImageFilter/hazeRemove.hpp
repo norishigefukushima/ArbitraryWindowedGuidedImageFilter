@@ -196,13 +196,13 @@ void HazeRemove::showTransmissionMap(Mat& dest, bool isPseudoColor)
 {
 	Mat temp;
 	tmap.convertTo(temp, CV_8U, 255);
-	if (!isPseudoColor)cvtColor(temp, dest, CV_GRAY2BGR);
+	if (!isPseudoColor)cvtColor(temp, dest, COLOR_GRAY2BGR);
 	else applyColorMap(temp, dest, 2);
 }
 
 void HazeRemove::showDarkChannel(Mat& dest, bool isPseudoColor)
 {
-	if (!isPseudoColor)cvtColor(dark, dest, CV_GRAY2BGR);
+	if (!isPseudoColor)cvtColor(dark, dest, COLOR_GRAY2BGR);
 	else applyColorMap(dark, dest, 2);
 }
 
@@ -214,7 +214,7 @@ void HazeRemove::operator() (Mat& src, Mat& dest, int r_dark, double toprate, in
 	getAtmosphericLight(src, toprate);
 	getTransmissionMap();
 	Mat srcg;
-	cvtColor(src, srcg, CV_BGR2GRAY);
+	cvtColor(src, srcg, COLOR_BGR2GRAY);
 
 	ArbitraryWindowedGuidedImageFilter gf;
 	gf.setMode(filter_switch);
