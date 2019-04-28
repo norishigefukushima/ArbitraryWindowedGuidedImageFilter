@@ -5,6 +5,7 @@ Published in ICASSP 2018
 * [Project Webpage: http://fukushima.web.nitech.ac.jp/research/awgif/](http://fukushima.web.nitech.ac.jp/research/awgif/)
 * [pdf](http://fukushima.web.nitech.ac.jp/paper/2018_icassp_fukushima.pdf)
 
+The code is tested by OpenCV4.1 with Visual Studio 2017.
 ## class and function lists
 The main function includes three tests.
 
